@@ -1,7 +1,7 @@
 ################################################################################
 # ShelpAm's CONFIG BEGIN
 source $ZDOTDIR/functions.zsh
-source $ZDOTDIR/.aliasrc
+source $ZDOTDIR/alias.zsh
 
 proxy
 # ShelpAm's CONFIG END 

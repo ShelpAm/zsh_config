@@ -1,34 +1,36 @@
 ################################################################################
 # ShelpAm's CONFIG BEGIN
-source $ZDOTDIR/functions.zsh
-source $ZDOTDIR/alias.zsh
+source "${ZDOTDIR}/functions.zsh"
+source "${ZDOTDIR}/alias.zsh"
 
 proxy
 # ShelpAm's CONFIG END 
 ################################################################################
 
-ZINIT_BIN="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+ZINIT_BIN="${XDG_DATA_HOME}/zinit/zinit.git"
 [ ! -d $ZINIT_BIN ] && mkdir -p "$(dirname $ZINIT_BIN)"
 [ ! -d $ZINIT_BIN/.git ] && git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_BIN
-declare -A ZINIT # initial Zinit's hash definition
+declare -A ZINIT           # Initial Zinit's hash definition
 source $ZINIT_BIN/zinit.zsh
 
-[ ! -d ${XDG_STATE_HOME}/zsh ] && mkdir ${XDG_STATE_HOME}/zsh
-HISTFILE=${XDG_STATE_HOME}/zsh/zsh_history
-HISTSIZE=120000
-SAVEHIST=100000
+HISTSIZE=100000
+SAVEHIST=${HISTSIZE}
+HISTFILE="${XDG_STATE_HOME}/zsh/history"
+ensure_filedir "${HISTSIZE}"
 
+setopt HIST_VERIFY          # Reload results of history expansion before executing
+setopt SHARE_HISTORY        # Constantly share history between shell instances
 setopt HIST_IGNORE_ALL_DUPS # Do not enter duplicates into history
 setopt HIST_IGNORE_SPACE    # Ignore command lines with leading spaces
-setopt HIST_VERIFY          # Reload results of history expansion before executing
-setopt INC_APPEND_HISTORY   # Constantly update $HISTFILE
-setopt SHARE_HISTORY        # Constantly share history between shell instances
 
+setopt NO_BEEP
 # setopt AUTO_CD
 # setopt CD_ABLE_VARS
 # setopt CORRECT
 
 setopt INTERACTIVE_COMMENTS # Allow comments in interactive mode
+
+bindkey -v                  # Enable vi mode for (i don't even know :()
 
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
@@ -47,6 +49,7 @@ zinit snippet OMZP::sudo/sudo.plugin.zsh
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
@@ -70,12 +73,12 @@ print() {
 # Theme
 fpath+=($HOME/.local/share/zinit/plugins/sindresorhus---pure/)
 autoload -U promptinit && promptinit
-# PURE_PROMPT_SYMBOL=%
+PURE_PROMPT_SYMBOL="%#"
 PURE_CMD_MAX_EXEC_TIME=10
+PURE_POWER_MODE=fancy
 zstyle :prompt:pure:path color blue
 zstyle ':prompt:pure:prompt:*' color cyan # change the color for both `prompt:success` and `prompt:error`
-# turn on git stash status
-zstyle :prompt:pure:git:stash show yes
+zstyle :prompt:pure:git:stash show yes # turn on git stash status
 prompt pure
 
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)

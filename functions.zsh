@@ -30,6 +30,6 @@ function config {
   nvim $ZDOTDIR/.zshrc && reload
 }
 
-emptytrash() {
-  sudo /bin/rm -rf ~/.trash/*
+ensure_filedir() {
+  mkdir -p $(dirname $1)
 }

@@ -1,16 +1,16 @@
 ################################################################################
 # ShelpAm's CONFIG BEGIN
 source "${ZDOTDIR}/functions.zsh"
-source "${ZDOTDIR}/alias.zsh"
+source "${ZDOTDIR}/aliases.zsh"
 
 proxy
 # ShelpAm's CONFIG END 
 ################################################################################
 
 ZINIT_BIN="${XDG_DATA_HOME}/zinit/zinit.git"
-[ ! -d $ZINIT_BIN ] && mkdir -p "$(dirname $ZINIT_BIN)"
+ensure_filedir "${ZINIT_BIN}"
 [ ! -d $ZINIT_BIN/.git ] && git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_BIN
-declare -A ZINIT           # Initial Zinit's hash definition
+typeset -A ZINIT           # Initial Zinit's hash definition
 source $ZINIT_BIN/zinit.zsh
 
 HISTSIZE=100000
@@ -26,7 +26,7 @@ setopt HIST_IGNORE_SPACE    # Ignore command lines with leading spaces
 setopt NO_BEEP
 # setopt AUTO_CD
 # setopt CD_ABLE_VARS
-# setopt CORRECT
+setopt CORRECT
 
 setopt INTERACTIVE_COMMENTS # Allow comments in interactive mode
 

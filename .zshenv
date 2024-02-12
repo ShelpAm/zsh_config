@@ -6,10 +6,12 @@ export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.local/state}"
 # export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-}" # Not required to have a default value
 
-export PATH="/home/shelpam/.local/bin:$PATH"
+typeset -U path
+path=(~/.local/bin ~/competitive_programming $path)
 
-# export TERM=xterm-truecolor
-# export COLORTERM=truecolor
+typeset -U mailpath
+mailpath=($mailpath)
+
 export GPG_TTY=$TTY
 export BROWSER=wslview
 
@@ -28,3 +30,8 @@ ensure_filedir "${NPM_CONFIG_USERCONFIG}"
 
 export LESSHISTFILE="${XDG_STATE_HOME}/less/history"
 ensure_filedir "${LESSHISTFILE}"
+
+export WGETRC="${XDG_CONFIG_HOME}/wget/wgetrc"
+ensure_filedir "${WGETRC}"
+
+

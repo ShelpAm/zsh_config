@@ -1,14 +1,14 @@
 function proxy {
-  local proxy_ip=127.0.0.1
-  local proxy_port=7890
+  local proxy_ip='127.0.0.1'
+  local proxy_port='7890'
 
   local proxy_address=${proxy_ip}:${proxy_port}
   local proxy_url=http://${proxy_address}
   export HTTP_PROXY=$proxy_url
   export HTTPS_PROXY=$proxy_url
   export FTP_PROXY=$proxy_url
-  git config --global http.proxy $proxy_url
-  git config --global https.proxy $proxy_url
+  git config --global http.proxy $proxy_address
+  git config --global https.proxy ${proxy_address}
   # We have no access to the apt configuration file.
   # sudo echo "Acquire::http::Proxy \"${proxy_url}\"" > /etc/apt/apt.conf.d/proxy.conf
 }
@@ -30,6 +30,6 @@ function config {
   nvim $ZDOTDIR/.zshrc && reload
 }
 
-ensure_filedir() {
-  mkdir -p $(dirname $1)
+function ensure_filedir() {
+  [ ! -d $1 ] && mkdir -p "$(dirname $1)"
 }
